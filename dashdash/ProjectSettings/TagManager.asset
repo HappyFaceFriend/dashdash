@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Coin
+  - Spikes
+  - GameManager
+  - PoolManager
+  - DataManager
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Spikes
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: background
+    uniqueID: 937705481
+    locked: 0
+  - name: playerEffect
+    uniqueID: 3638521879
+    locked: 0
+  - name: floor
+    uniqueID: 2391860615
+    locked: 0
+  - name: player
+    uniqueID: 2680365255
+    locked: 0
+  - name: object
+    uniqueID: 2971240607
+    locked: 0
+  - name: effect
+    uniqueID: 3959494705
+    locked: 0
