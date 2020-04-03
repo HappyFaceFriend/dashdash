@@ -13,12 +13,30 @@ public  class DataManager : Singleton<DataManager>
 
     public int howToPlay;
 
+    public bool muteSound;
+    public bool muteMusic;
+
     void Awake()
     {
         base.Awake();
         howToPlay = PlayerPrefs.GetInt("howToPlay", 0);
         highScore = PlayerPrefs.GetInt("highScore", 0);
         recentHighScore = PlayerPrefs.GetInt("recentHighScore", 0);
+        int d;
+        d = PlayerPrefs.GetInt("muteSound", 0);
+        muteSound = d==0?false:true;
+        d = PlayerPrefs.GetInt("muteMusic", 0);
+        muteMusic = d==0?false:true;
+    }
+    public void SetSound(bool mute)
+    {
+        muteSound = mute;
+        PlayerPrefs.SetInt("muteSound", mute?1:0);
+    }
+    public void SetMusic(bool mute)
+    {
+        muteMusic = mute;
+        PlayerPrefs.SetInt("muteMusic", mute?1:0);
     }
     public void SaveHowToPlay(int i)
     {

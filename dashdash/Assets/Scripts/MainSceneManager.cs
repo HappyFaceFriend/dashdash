@@ -24,6 +24,7 @@ public class MainSceneManager : MonoBehaviour
         highScore = 0;
         DataManager.Instance.SetHighScore(0);
         DataManager.Instance.SetHighScore(0);
+        DataManager.Instance.SaveHowToPlay(0);
     }
     public void HighScore1000()
     {
@@ -38,6 +39,11 @@ public class MainSceneManager : MonoBehaviour
         highScore = DataManager.Instance.highScore;
         SetCharacter(character);
             speedPlus.gameObject.SetActive(false);
+    }
+    void Start()
+    {
+        
+        SoundManager.Instance.PlayBgm(SoundManager.BGM.Main);
     }
     void SetCharacter(int character)
     {
@@ -91,6 +97,8 @@ public class MainSceneManager : MonoBehaviour
     public void EndScene()
     {
         canvasAnimator.SetTrigger("EndScene");
+        speedPlus.SetTrigger("End");
+        SoundManager.Instance.PlaySound(SoundManager.Effects.Start, 0.2f);
     }
     public void SwitchScene()
     {

@@ -8,6 +8,7 @@ public class Spike : ScrollingObject
     Animator animator;
     Vector3 originalScale;
 
+
     void Awake()
     {
         originalScale = transform.localScale;

@@ -71,12 +71,24 @@ public class PlayerMovement : MonoBehaviour
     public GameObject pausePanel;
 
     float scrollAlpha = 1f;
-    public GameObject howToPlay;
 
     public GameObject pinkStomp;
     public GameObject goldStomp;
     public GameObject goldParticle;
     public GameObject pauseButton;
+
+    public AudioSource startChargeSound;
+    public AudioSource powerChargeSound;
+    public AudioSource jumpSound;
+    public AudioSource landSound;
+    public AudioSource stompSound;
+    public AudioSource stompSound2;
+    public AudioSource hurtSound;
+    public AudioSource shakeSound;
+    bool chargeSoundPlayed;
+    bool powerSoundPlayed;
+    int shakeCount = 0;
+
     void Awake()
     {
         //state = State.Idle;
@@ -93,7 +105,25 @@ public class PlayerMovement : MonoBehaviour
         life = 3;
         isImmune = false;
         isStomping = false;
+        chargeSoundPlayed = false;
+        powerSoundPlayed = false;
         GameManager.Instance.targetScrollSpeed = 900;
+        if(DataManager.Instance.character > 3)
+        {
+            SetTimes(1.2f);
+        }
+        StartCoroutine(IncreaseSpeed());
+        scaleLock = false;
+        GameManager.Instance.StartGame();
+        characterChange.ChangeImage(DataManager.Instance.character);
+        ChangeParticleColor(deathParticle1, dieColors1[DataManager.Instance.character-1]);
+        ChangeParticleColor(deathParticle2, dieColors2[DataManager.Instance.character-1]);
+        ChangeParticleColor(hitParticle, dieColors1[DataManager.Instance.character-1]);
+        ChangeParticleColor(sweat.GetComponent<ParticleSystem>(), dieColors2[DataManager.Instance.character-1]);
+    }
+    void Start()
+    {
+        StartCoroutine(Prep());
         if(DataManager.Instance.character > 3)
         {
             if(DataManager.Instance.character == 4)
@@ -102,25 +132,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 PoolManager.Instance.SetPoolPrefab("Stomp", goldStomp);
             }
-            SetTimes(1.4f);
         }
-        StartCoroutine(IncreaseSpeed());
-        scaleLock = false;
-        if(DataManager.Instance.howToPlay == 0)
-        {
-            DataManager.Instance.SaveHowToPlay(1);
-        }
-        else if(DataManager.Instance.howToPlay == 1)
-        {
-            GameManager.Instance.readyDuration = 1f;
-            howToPlay.SetActive(false);
-        }
-        GameManager.Instance.StartGame();
-        characterChange.ChangeImage(DataManager.Instance.character);
-        ChangeParticleColor(deathParticle1, dieColors1[DataManager.Instance.character-1]);
-        ChangeParticleColor(deathParticle2, dieColors2[DataManager.Instance.character-1]);
-        ChangeParticleColor(hitParticle, dieColors1[DataManager.Instance.character-1]);
-        ChangeParticleColor(sweat.GetComponent<ParticleSystem>(), dieColors2[DataManager.Instance.character-1]);
     }
     IEnumerator IncreaseSpeed()
     {
@@ -138,17 +150,20 @@ public class PlayerMovement : MonoBehaviour
         isPaused = true;
         Time.timeScale = 0f;
         pausePanel.SetActive(true);
+        SoundManager.Instance.gameBgm.Pause();
     }
     public void Resume()
     {
         isPaused = false;
         Time.timeScale = 1;
         pausePanel.SetActive(false);
+        SoundManager.Instance.gameBgm.Play();
     }
     public void Exit()
     {
         Resume();
         pauseButton.SetActive(false);
+        SoundManager.Instance.gameBgm.Stop();
         Die();
     }
     void SetTimes(float alpha)
@@ -162,10 +177,6 @@ public class PlayerMovement : MonoBehaviour
         powerJumpDuration /= alpha;
         immuneTime /= alpha;
         animator.SetFloat("AnimSpeed",alpha);
-    }
-    void Start()
-    {
-        StartCoroutine(Prep());
     }
     IEnumerator Prep()
     {
@@ -188,11 +199,12 @@ public class PlayerMovement : MonoBehaviour
         if(DataManager.Instance.character == 5)
             goldParticle.SetActive(true);
         StartCharging();
+        isPowered = true;
         Jump();
     }
     void Update()
     {
-        if(state == State.Prep || state == State.Dead)
+        if(state == State.Dead || state == State.Prep)
             return;
         ProcessInputs();
         UpdateBuffer();
@@ -200,9 +212,18 @@ public class PlayerMovement : MonoBehaviour
         if(state == State.Charging)
         {
             chargeTime += Time.deltaTime;
+            if(!chargeSoundPlayed && chargeTime >= 0.2f)
+            {
+                startChargeSound.Play();
+                chargeSoundPlayed = true;
+            }
+                
             if(chargeTime >= powerTime)
             {
                 isPowered = true;
+                if(!powerSoundPlayed)
+                    powerChargeSound.Play();
+                powerSoundPlayed = true;
                 sweat.gameObject.SetActive(true);
                 shakeDist += shakeSpeed * Time.deltaTime;
                 transform.Translate(new Vector3(shakeDir * shakeSpeed,0f,0f) * Time.deltaTime);
@@ -210,8 +231,14 @@ public class PlayerMovement : MonoBehaviour
                 {
                     shakeDist -= shakeValue;
                     shakeDir *= -1;
+                    if(shakeCount == 0)
+                    {
+                        shakeSound.Play();
+                        shakeCount = 2;
+                    }
+                    shakeCount--;
                 }
-            }    
+            }   
         }
         else if(state == State.Jumping)
         {
@@ -300,7 +327,12 @@ public class PlayerMovement : MonoBehaviour
             SetCollider(1);
             ScrollingParticle stompeff = PoolManager.Instance.GetObject<ScrollingParticle>(Defs.StompGrass);
             stompeff.Initialize(Defs.StompGrass, transform.position + new Vector3(53f*dir,0f,0f), dir*90f);
+            stompSound.Play();
+            stompSound2.Play();
+            
         }
+        else
+            landSound.Play();
     }
     void SetCollider(int a)
     {
@@ -328,6 +360,12 @@ public class PlayerMovement : MonoBehaviour
         shakeDist = 0f;
         transform.position = new Vector3(transform.position.x, originalY, transform.position.z);
         cameraScript.ShakeJump();
+        startChargeSound.Stop();
+        if(!isPowered)
+            jumpSound.Play();
+        chargeSoundPlayed = false;
+                powerChargeSound.Stop();
+                powerSoundPlayed = false;
     }
     void StartCharging()
     {
@@ -352,7 +390,6 @@ public class PlayerMovement : MonoBehaviour
             immuneTick = 0f;
             immuneETime = 0f;
             cameraScript.ShakeSpike();
-            
             if(life ==0)
                 Die();
             else
@@ -360,6 +397,7 @@ public class PlayerMovement : MonoBehaviour
                 hitParticle.transform.position = transform.position + new Vector3(0,0,500);
                 hitParticle.transform.localScale = transform.localScale;
                 hitParticle.gameObject.SetActive(true);
+                hurtSound.Play();
             }
         }
     }

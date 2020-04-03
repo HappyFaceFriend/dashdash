@@ -11,9 +11,11 @@ public class GameManager : Singleton<GameManager>
     public int score = 0;
 
     public Animator canvasAnimator;
-    public float readyDuration = 2f;
+    public float readyDuration = 0.5f;
 
     Coroutine gameStart;
+
+    public AudioSource dieSound;
     void Update()
     {
         DataManager.Instance.scrolledDistance += Time.deltaTime * scrollSpeed;
@@ -22,6 +24,7 @@ public class GameManager : Singleton<GameManager>
     public void StartGame()
     {
         score = 0;
+        SoundManager.Instance.PlayBgm(SoundManager.BGM.Game);
         gameStart = StartCoroutine(GamePrep());
     }
 
@@ -30,6 +33,8 @@ public class GameManager : Singleton<GameManager>
         if(gameStart != null)
             StopCoroutine(gameStart);
         StartCoroutine(GameEnd());  
+        dieSound.Play();
+        SoundManager.Instance.gameBgm.Stop();
         DataManager.Instance.recentScore = score;
         if(DataManager.Instance.highScore < score)
             DataManager.Instance.SetHighScore(score);

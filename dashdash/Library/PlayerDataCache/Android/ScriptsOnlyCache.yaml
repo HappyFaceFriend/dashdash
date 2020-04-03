@@ -4,7 +4,6 @@ ScriptsOnlyBuild:
     - BackgroundOffset
     - BackgroundStuff
     - ButtonMovement
-    - CameraAutoSize
     - CameraScript
     - CharacterChange
     - Coin
@@ -20,6 +19,7 @@ ScriptsOnlyBuild:
     - ScoreEffect
     - ScoreText
     - ScrollingParticle
+    - SoundManager
     - Spike
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
@@ -59,6 +59,10 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 81
       Script: {instanceID: 0}
+    - Class: 82
+      Script: {instanceID: 0}
+    - Class: 83
+      Script: {instanceID: 0}
     - Class: 91
       Script: {instanceID: 0}
     - Class: 95
@@ -78,23 +82,23 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10228}
     - Class: 114
-      Script: {instanceID: 10264}
+      Script: {instanceID: 10266}
     - Class: 114
-      Script: {instanceID: 10544}
+      Script: {instanceID: 10368}
     - Class: 114
-      Script: {instanceID: 10618}
+      Script: {instanceID: 10622}
     - Class: 114
-      Script: {instanceID: 10628}
+      Script: {instanceID: 10632}
     - Class: 114
-      Script: {instanceID: 10790}
+      Script: {instanceID: 10794}
     - Class: 114
-      Script: {instanceID: 11098}
+      Script: {instanceID: 11102}
     - Class: 114
-      Script: {instanceID: 11324}
+      Script: {instanceID: 11328}
     - Class: 114
-      Script: {instanceID: 11420}
+      Script: {instanceID: 11424}
     - Class: 114
-      Script: {instanceID: 11452}
+      Script: {instanceID: 11456}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -114,6 +118,12 @@ ScriptsOnlyBuild:
     - Class: 223
       Script: {instanceID: 0}
     - Class: 224
+      Script: {instanceID: 0}
+    - Class: 241
+      Script: {instanceID: 0}
+    - Class: 243
+      Script: {instanceID: 0}
+    - Class: 245
       Script: {instanceID: 0}
     Assets/Scenes/GameScene.unity:
     - Class: 1
@@ -136,6 +146,10 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 81
       Script: {instanceID: 0}
+    - Class: 82
+      Script: {instanceID: 0}
+    - Class: 83
+      Script: {instanceID: 0}
     - Class: 91
       Script: {instanceID: 0}
     - Class: 95
@@ -157,39 +171,41 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 9978}
     - Class: 114
+      Script: {instanceID: 9998}
+    - Class: 114
       Script: {instanceID: 10052}
     - Class: 114
       Script: {instanceID: 10208}
     - Class: 114
       Script: {instanceID: 10228}
     - Class: 114
-      Script: {instanceID: 10264}
+      Script: {instanceID: 10266}
     - Class: 114
-      Script: {instanceID: 10284}
+      Script: {instanceID: 10286}
     - Class: 114
-      Script: {instanceID: 10322}
+      Script: {instanceID: 10324}
     - Class: 114
-      Script: {instanceID: 10406}
+      Script: {instanceID: 10410}
     - Class: 114
-      Script: {instanceID: 10544}
+      Script: {instanceID: 10622}
     - Class: 114
-      Script: {instanceID: 10618}
+      Script: {instanceID: 10632}
     - Class: 114
-      Script: {instanceID: 10628}
+      Script: {instanceID: 10782}
     - Class: 114
-      Script: {instanceID: 10778}
+      Script: {instanceID: 10794}
     - Class: 114
-      Script: {instanceID: 10790}
+      Script: {instanceID: 10804}
     - Class: 114
-      Script: {instanceID: 10800}
+      Script: {instanceID: 10832}
     - Class: 114
-      Script: {instanceID: 10828}
+      Script: {instanceID: 11032}
     - Class: 114
-      Script: {instanceID: 11028}
+      Script: {instanceID: 11102}
     - Class: 114
-      Script: {instanceID: 11098}
+      Script: {instanceID: 11424}
     - Class: 114
-      Script: {instanceID: 11452}
+      Script: {instanceID: 11456}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -209,6 +225,12 @@ ScriptsOnlyBuild:
     - Class: 223
       Script: {instanceID: 0}
     - Class: 224
+      Script: {instanceID: 0}
+    - Class: 241
+      Script: {instanceID: 0}
+    - Class: 243
+      Script: {instanceID: 0}
+    - Class: 245
       Script: {instanceID: 0}
     Assets/Scenes/MainScene.unity:
     - Class: 1
@@ -227,6 +249,10 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 81
       Script: {instanceID: 0}
+    - Class: 82
+      Script: {instanceID: 0}
+    - Class: 83
+      Script: {instanceID: 0}
     - Class: 91
       Script: {instanceID: 0}
     - Class: 95
@@ -244,23 +270,23 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10228}
     - Class: 114
-      Script: {instanceID: 10264}
+      Script: {instanceID: 10266}
     - Class: 114
-      Script: {instanceID: 10538}
+      Script: {instanceID: 10368}
     - Class: 114
-      Script: {instanceID: 10544}
+      Script: {instanceID: 10542}
     - Class: 114
-      Script: {instanceID: 10618}
+      Script: {instanceID: 10622}
     - Class: 114
-      Script: {instanceID: 10628}
+      Script: {instanceID: 10632}
     - Class: 114
-      Script: {instanceID: 10800}
+      Script: {instanceID: 10804}
     - Class: 114
-      Script: {instanceID: 11098}
+      Script: {instanceID: 11102}
     - Class: 114
-      Script: {instanceID: 11420}
+      Script: {instanceID: 11424}
     - Class: 114
-      Script: {instanceID: 11452}
+      Script: {instanceID: 11456}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -280,6 +306,12 @@ ScriptsOnlyBuild:
     - Class: 223
       Script: {instanceID: 0}
     - Class: 224
+      Script: {instanceID: 0}
+    - Class: 241
+      Script: {instanceID: 0}
+    - Class: 243
+      Script: {instanceID: 0}
+    - Class: 245
       Script: {instanceID: 0}
   scriptHashData:
   - hash:
@@ -314,7 +346,7 @@ ScriptsOnlyBuild:
     className: TMP_ScrollbarEventHandler
   - hash:
       serializedVersion: 2
-      Hash: e11d22aba0e5682dc333b1bc3d2672b0
+      Hash: bfa88a781de571327efcc2fe872503a1
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ScrollingParticle
@@ -326,7 +358,7 @@ ScriptsOnlyBuild:
     className: GroupTrack
   - hash:
       serializedVersion: 2
-      Hash: c5d405fac991c06017f5298250633db0
+      Hash: 9005a8fd2dfb35668fe9effa472fce6e
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameManager
@@ -488,6 +520,12 @@ ScriptsOnlyBuild:
     className: BackgroundOffset
   - hash:
       serializedVersion: 2
+      Hash: b1402bf1b0a44531e651a320e6611ef6
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ScrollingText
+  - hash:
+      serializedVersion: 2
       Hash: cc4274b586df3c02688bac01b88bd16c
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.EventSystems
@@ -500,7 +538,7 @@ ScriptsOnlyBuild:
     className: ControlPlayableAsset
   - hash:
       serializedVersion: 2
-      Hash: 3587518290da434a5e5de7728fa1ff37
+      Hash: ee805e44649ab64c706624326e7d0440
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerMovement
@@ -530,13 +568,19 @@ ScriptsOnlyBuild:
     className: LifeSet
   - hash:
       serializedVersion: 2
+      Hash: 5f8322cdf6f085f86e796857cd7e9e36
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: SoundManager
+  - hash:
+      serializedVersion: 2
       Hash: 558329a7f1bddec547382f0a76bf21e3
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Pool
   - hash:
       serializedVersion: 2
-      Hash: 7b12784d26cba3802b00dc7c838ff315
+      Hash: f842417c1c93d9432a7af2c4a020711b
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: DataManager
@@ -644,7 +688,7 @@ ScriptsOnlyBuild:
     className: SignalReceiver
   - hash:
       serializedVersion: 2
-      Hash: c5d405fac991c06017f5298250633db0
+      Hash: c6af5d82168a70881eb681dd3a89f3cb
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameSceneManager
@@ -728,7 +772,7 @@ ScriptsOnlyBuild:
     className: TMP_StyleSheet
   - hash:
       serializedVersion: 2
-      Hash: 685d8f0255928b83c0552aa3fe22c4a0
+      Hash: c65a7b076244e8a653d63303931b989d
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: OverSceneManager

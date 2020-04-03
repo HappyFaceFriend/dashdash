@@ -156,6 +156,7 @@ MonoBehaviour:
   scrollAlpha: 1
   height: 145
   xPos: 330
+  spikeDie: {fileID: 0}
 --- !u!95 &1571812479
 Animator:
   serializedVersion: 3

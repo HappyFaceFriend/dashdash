@@ -50,7 +50,7 @@ public class ObjectGenerator : MonoBehaviour
 
     void Awake()
     {
-        coinSpawner = new Spawner(3000,8,10,CreateCoin);
+        coinSpawner = new Spawner(3000,7,10,CreateCoin);
         spikeSpawner = new Spawner(2500,4,5,CreateSpike);
     }
 

@@ -69,6 +69,7 @@
      <Compile Include="Assets\Scripts\ScrollingParticle.cs" />
      <Compile Include="Assets\Scripts\ScrollingText.cs" />
      <Compile Include="Assets\Scripts\Singleton.cs" />
+     <Compile Include="Assets\Scripts\SoundManager.cs" />
      <Compile Include="Assets\Scripts\Spike.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>C:/gitp/dashdash/dashdash/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>

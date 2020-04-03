@@ -15,6 +15,10 @@ public class OverSceneManager : MonoBehaviour
     public Animator canvasAnimator;
     public Animator bestAnimator;
 
+    public AudioSource count;
+    public AudioSource best;
+    public AudioSource stomp;
+
     bool gotoGame;
     // Start is called before the first frame update
     void Start()
@@ -22,21 +26,28 @@ public class OverSceneManager : MonoBehaviour
         score = DataManager.Instance.recentScore;
         highScore = DataManager.Instance.highScore;
         recentHighScore = DataManager.Instance.recentHighScore;
-        
+        /*
+        score = 1000;
+        highScore = 1000;
+        recentHighScore = 0;
+        */
         if(score < highScore)
             highScoreText.SetScore(highScore);
         else
             highScoreText.SetScore(recentHighScore);
         StartCoroutine(CountScore());
+        SoundManager.Instance.PlayBgm(SoundManager.BGM.Main);
     }
     IEnumerator CountScore()
     {
         int curScore = 0;
-        int r = 3;
+        int r = 2;
         if(score >= 60 * r)
             r = score/60;       
         while(curScore < score)
         {
+            if(!count.isPlaying)
+                count.Play();
             curScore += Random.Range(r-1,r+1);
             if(curScore > score)
                 curScore = score;
@@ -44,11 +55,15 @@ public class OverSceneManager : MonoBehaviour
             yield return null;
         }
         if(highScore == score)
+        {
+            best.PlayDelayed(0.5f);
             canvasAnimator.SetTrigger("Best");
+        }
     }
     public void BestAnimDone()
     {
         bestAnimator.SetTrigger("CanvasDone");
+        stomp.Play();
         if(highScore == score)
             StartCoroutine(CountHighScore());
     }
@@ -56,10 +71,13 @@ public class OverSceneManager : MonoBehaviour
     {
         int curScore = recentHighScore;
         int r = 3;
+        count.volume *=0.7f;
         if(highScore - recentHighScore >= 40 * r)
             r = (highScore - recentHighScore)/60;       
         while(curScore < score)
         {
+            if(!count.isPlaying)
+                count.Play();
             curScore += Random.Range(r-1,r+1);
             if(curScore > highScore)
                 curScore = highScore;
@@ -71,6 +89,7 @@ public class OverSceneManager : MonoBehaviour
     {
         canvasAnimator.SetTrigger("Close");
         gotoGame = true;
+        SoundManager.Instance.PlaySound(SoundManager.Effects.Start, 0.2f);
     }
     public void Select()
     {

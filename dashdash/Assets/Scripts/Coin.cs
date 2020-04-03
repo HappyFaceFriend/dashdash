@@ -40,7 +40,7 @@ public class Coin : ScrollingObject
         isDead = true;
         ScrollingParticle die = PoolManager.Instance.GetObject<ScrollingParticle>(Defs.CoinDie);
         die.Initialize(Defs.CoinDie, transform.position + new Vector3(0f,0f,500f), 0);
-
+        die.sound.pitch = Random.Range(0.99f,1.01f);
         StartCoroutine(Disappear());
     }
     public void GameOver()

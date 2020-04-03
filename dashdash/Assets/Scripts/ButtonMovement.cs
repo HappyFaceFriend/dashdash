@@ -9,7 +9,7 @@ public class ButtonMovement : MonoBehaviour
     RectTransform rectTransform;
     Button button;
     bool isDown;
-    int delta = 20;
+    int delta = 10;
     void Awake()
     {   
         button = GetComponent<Button>();
@@ -23,17 +23,19 @@ public class ButtonMovement : MonoBehaviour
             return;
         isDown = true;
         rectTransform.position = new Vector3(rectTransform.position.x, originalPos.y-delta,0);
+        SoundManager.Instance.PlaySound(SoundManager.Effects.Touch);
     }
     public void PointerUp()
     {
         isDown = false;
+        //SoundManager.Instance.PlaySound(SoundManager.Effects.Up);
     }
     // Update is called once per frame
     void Update()
     {
         if(!isDown && rectTransform.position.y < originalPos.y)
         {
-            rectTransform.position += new Vector3(0,delta * Time.deltaTime * 5f, 0);
+            rectTransform.position += new Vector3(0,delta * Time.unscaledDeltaTime * 5f, 0);
             if(rectTransform.position.y > originalPos.y)
                 rectTransform.position = new Vector3(rectTransform.position.x, originalPos.y,0);
         }

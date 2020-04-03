@@ -5,6 +5,7 @@ using UnityEngine;
 public class ScrollingParticle : ScrollingObject
 {
     public string poolName;
+    public AudioSource sound;
     public void Initialize(string poolName, Vector3 position, float rotation, float scale)
     {
         this.poolName = poolName;
@@ -12,6 +13,8 @@ public class ScrollingParticle : ScrollingObject
         transform.Rotate(new Vector3(0,0,1), rotation);
         transform.localScale = new Vector3(scale,scale,1f);
         gameObject.SetActive(true);
+        if(sound != null)
+            sound.Play();
     }
     public void Initialize(string poolName, Vector3 position, float rotation)
     {
@@ -20,6 +23,8 @@ public class ScrollingParticle : ScrollingObject
         transform.Rotate(new Vector3(0,0,1), rotation);
         transform.localScale = new Vector3(1f,1f,1f);
         gameObject.SetActive(true);
+        if(sound != null)
+            sound.Play();
     }
     protected override void OutOfScreen()
     {
