@@ -16,9 +16,14 @@ public  class DataManager : Singleton<DataManager>
     public bool muteSound;
     public bool muteMusic;
 
+    public int adCount;
+    public bool isExited;
+
     void Awake()
     {
         base.Awake();
+        adCount = 0;
+        isExited = false;
         howToPlay = PlayerPrefs.GetInt("howToPlay", 0);
         highScore = PlayerPrefs.GetInt("highScore", 0);
         recentHighScore = PlayerPrefs.GetInt("recentHighScore", 0);

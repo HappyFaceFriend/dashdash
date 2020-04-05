@@ -23,10 +23,10 @@ public class SoundManager : Singleton<SoundManager>
 
     void Start()
     {
-        if(DataManager.Instance.muteSound)
-            SetSoundVolume(-80f);
         if(DataManager.Instance.muteMusic)
             SetMusicVolume(-80f);
+        if(DataManager.Instance.muteSound)
+            SetSoundVolume(-80f);
     }
     public void SetMusicVolume(float volume)
     {
@@ -68,6 +68,8 @@ public class SoundManager : Singleton<SoundManager>
     }
     public void PlaySound(Effects type, float delay = 0f)
     {
+        if(DataManager.Instance.muteSound)
+            return;
         if(type == Effects.Touch)
             touchSound.Play();
         else if(type == Effects.Start)

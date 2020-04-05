@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement   ;
+using UnityEngine.SceneManagement;
 
 public class OverSceneManager : MonoBehaviour
 {
@@ -23,6 +23,21 @@ public class OverSceneManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if(!DataManager.Instance.isExited)
+            DataManager.Instance.adCount++;
+        if(DataManager.Instance.adCount%9 == 0 && DataManager.Instance.adCount != 0)
+        {
+            DataManager.Instance.adCount = 0;
+            //Time.timeScale = 0f;
+            AdManager.Instance.ShowRewardAd();
+        }
+        else if(DataManager.Instance.adCount%3 == 0 && DataManager.Instance.adCount != 0)
+        {
+            
+            //Time.timeScale = 0f;
+            AdManager.Instance.ShowNormalAd();
+        }
+        
         score = DataManager.Instance.recentScore;
         highScore = DataManager.Instance.highScore;
         recentHighScore = DataManager.Instance.recentHighScore;
@@ -37,6 +52,10 @@ public class OverSceneManager : MonoBehaviour
             highScoreText.SetScore(recentHighScore);
         StartCoroutine(CountScore());
         SoundManager.Instance.PlayBgm(SoundManager.BGM.Main);
+    }
+    public void AdDone(bool finished)
+    {
+        //Time.timeScale = 1f;
     }
     IEnumerator CountScore()
     {

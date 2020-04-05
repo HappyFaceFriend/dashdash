@@ -88,6 +88,9 @@ public class PlayerMovement : MonoBehaviour
     bool chargeSoundPlayed;
     bool powerSoundPlayed;
     int shakeCount = 0;
+    public Animator adset;
+
+    Vector3 originalPos;
 
     void Awake()
     {
@@ -120,9 +123,13 @@ public class PlayerMovement : MonoBehaviour
         ChangeParticleColor(deathParticle2, dieColors2[DataManager.Instance.character-1]);
         ChangeParticleColor(hitParticle, dieColors1[DataManager.Instance.character-1]);
         ChangeParticleColor(sweat.GetComponent<ParticleSystem>(), dieColors2[DataManager.Instance.character-1]);
+        GameManager.Instance.player = this;
+        GameManager.Instance.adset = adset;
+        DataManager.Instance.isExited = false;
     }
     void Start()
     {
+        originalPos = transform.position;
         StartCoroutine(Prep());
         if(DataManager.Instance.character > 3)
         {
@@ -134,9 +141,38 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+    public void Revive()
+    {
+        if(DataManager.Instance.character == 5)
+            goldParticle.SetActive(true);
+        dir = 1;
+        DataManager.Instance.isExited = true;
+        isPowered = false;
+        buffer = BufferType.None;
+        shakeDist = 0f;
+        shakeDir = 1;
+        life = 1;
+        lifeSet.Revive();
+        isImmune = false;
+        isStomping = false;
+        chargeSoundPlayed = false;
+        powerSoundPlayed = false;
+        scaleLock = false;
+        transform.position = originalPos;
+        deathParticle.SetActive(false);
+        deathParticle1.gameObject.SetActive(true);
+        deathParticle2.gameObject.SetActive(true);
+        StartCoroutine(ReviveCor());
+    }
     IEnumerator IncreaseSpeed()
     {
-        yield return new WaitForSeconds(18f);
+        float eTime = 0f;
+        while(eTime < 18f)
+        {
+            if(!(state == State.Dead || state == State.Prep))
+                eTime += Time.deltaTime;
+            yield return null;
+        }
         if(scrollAlpha * 1.05f <= 1.6f)
         {
             StartCoroutine(IncreaseSpeed());
@@ -144,27 +180,6 @@ public class PlayerMovement : MonoBehaviour
         }
         else
             SetTimes(1.6f/scrollAlpha);
-    }
-    public void PauseButtonClicked()
-    {
-        isPaused = true;
-        Time.timeScale = 0f;
-        pausePanel.SetActive(true);
-        SoundManager.Instance.gameBgm.Pause();
-    }
-    public void Resume()
-    {
-        isPaused = false;
-        Time.timeScale = 1;
-        pausePanel.SetActive(false);
-        SoundManager.Instance.gameBgm.Play();
-    }
-    public void Exit()
-    {
-        Resume();
-        pauseButton.SetActive(false);
-        SoundManager.Instance.gameBgm.Stop();
-        Die();
     }
     void SetTimes(float alpha)
     {
@@ -175,7 +190,6 @@ public class PlayerMovement : MonoBehaviour
         bufferTime /= alpha;
         jumpDuration /= alpha;
         powerJumpDuration /= alpha;
-        immuneTime /= alpha;
         animator.SetFloat("AnimSpeed",alpha);
     }
     IEnumerator Prep()
@@ -185,6 +199,31 @@ public class PlayerMovement : MonoBehaviour
         while(eTime <= duration)
         {
             eTime += Time.deltaTime;
+            transform.eulerAngles += new Vector3(0,0,(360*3-90)/duration) * Time.deltaTime;
+            transform.position += new Vector3(120f,0,0) * Time.deltaTime / (duration+0.15f);
+            yield return null;
+        }
+        transform.eulerAngles = new Vector3(0,0,270);
+        while(eTime <= duration + 0.15f)
+        {
+            eTime += Time.deltaTime;
+            transform.position += new Vector3(120f,0,0) * Time.deltaTime / (duration+0.15f);
+            yield return null;
+        }
+        if(DataManager.Instance.character == 5)
+            goldParticle.SetActive(true);
+        StartCharging();
+        isPowered = true;
+        Jump();
+    }
+    IEnumerator ReviveCor()
+    {
+        float eTime = 0f;
+        float duration = 0.3f;
+        while(eTime <= duration)
+        {
+            eTime += Time.deltaTime;
+            transform.localScale = new Vector3(1f,1f,0) * eTime/duration + new Vector3(0,0,1);
             transform.eulerAngles += new Vector3(0,0,(360*3-90)/duration) * Time.deltaTime;
             transform.position += new Vector3(120f,0,0) * Time.deltaTime / (duration+0.15f);
             yield return null;
@@ -404,12 +443,36 @@ public class PlayerMovement : MonoBehaviour
     void Die()
     {
         ChangeState(State.Dead);
-        gameObject.SetActive(false);
         goldParticle.SetActive(false);
         deathParticle.transform.position = transform.position;
         deathParticle.transform.localScale = transform.localScale;
         deathParticle.SetActive(true);
+        gameObject.SetActive(false);
         GameManager.Instance.EndGame();
+    }
+    public void PauseButtonClicked()
+    {
+        isPaused = true;
+        Time.timeScale = 0f;
+        pausePanel.SetActive(true);
+        pauseButton.SetActive(false);
+        SoundManager.Instance.gameBgm.Pause();
+    }
+    public void Resume()
+    {
+        isPaused = false;
+        Time.timeScale = 1;
+        pausePanel.SetActive(false);
+        pauseButton.SetActive(true);
+        SoundManager.Instance.gameBgm.Play();
+    }
+    public void Exit()
+    {
+        Resume();
+        pauseButton.SetActive(false);
+        DataManager.Instance.isExited = true;
+        SoundManager.Instance.gameBgm.Stop();
+        Die();
     }
     //void 
     void ColWithCoin(Coin coin)

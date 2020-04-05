@@ -17,4 +17,7 @@ public static class Defs
     public static string MainScene = "MainScene";
 
     public static int[] limits = {0, 100, 200, 500, 1000};
+
+    public static float soundVolume = 7f;
+    public static float musicVolume = 0f;
 }

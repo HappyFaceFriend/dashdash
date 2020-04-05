@@ -6,6 +6,14 @@ using UnityEngine.UI;
 
 public static class Funcs
 {
+    public static bool IsKorean()
+    {
+        SystemLanguage lang = Application.systemLanguage;
+        if(lang == SystemLanguage.Korean)
+            return true;
+        else
+            return false;
+    }
     public static IEnumerator Shake(Transform t, float magnitude, float duration)
     {
         float eTime = 0f;

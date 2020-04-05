@@ -16,6 +16,11 @@ public class LifeSet : MonoBehaviour
         StartCoroutine(AnimateCreation());
     }
 
+    public void Revive()
+    {
+        images[0].sprite = lifeFull;
+        StartCoroutine(SquishHeart(0));
+    }
     public void GetDamage()
     {
         if(life == 0)

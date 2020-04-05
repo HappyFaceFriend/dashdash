@@ -16,6 +16,28 @@ public class GameManager : Singleton<GameManager>
     Coroutine gameStart;
 
     public AudioSource dieSound;
+
+    public PlayerMovement player;
+    public Animator adset;
+    bool revived;
+    
+    public void AdDone(bool Finished)
+    {
+        if(Finished)
+            StartCoroutine(AdDoneCor());
+        else
+        {
+            adset.GetComponent<AdSet>().exit = true;
+            GameManager.Instance.adset.SetTrigger("End");
+        }
+    }
+    IEnumerator AdDoneCor()
+    {
+        GameManager.Instance.adset.SetTrigger("End");
+        yield return new WaitForSeconds(0.6f);
+        Revive();
+    }
+
     void Update()
     {
         DataManager.Instance.scrolledDistance += Time.deltaTime * scrollSpeed;
@@ -24,20 +46,29 @@ public class GameManager : Singleton<GameManager>
     public void StartGame()
     {
         score = 0;
+        revived = false;
         SoundManager.Instance.PlayBgm(SoundManager.BGM.Game);
         gameStart = StartCoroutine(GamePrep());
+    }
+    public void Revive()
+    {
+        revived = true;
+        SoundManager.Instance.PlayBgm(SoundManager.BGM.Game);
+        gameStart = StartCoroutine(GamePrep());
+        player.gameObject.SetActive(true);
+        player.Revive();
     }
 
     public void EndGame()
     {
         if(gameStart != null)
             StopCoroutine(gameStart);
-        StartCoroutine(GameEnd());  
         dieSound.Play();
         SoundManager.Instance.gameBgm.Stop();
         DataManager.Instance.recentScore = score;
         if(DataManager.Instance.highScore < score)
             DataManager.Instance.SetHighScore(score);
+        StartCoroutine(GameEnd());  
     }
     IEnumerator GamePrep()
     {
@@ -67,7 +98,10 @@ public class GameManager : Singleton<GameManager>
         yield return new WaitForSeconds(0.1f);
         DestroyObjects();
         yield return new WaitForSeconds(0.3f);
-        canvasAnimator.SetTrigger("EndScene");
+        if(!revived && score >= 30 && score >= DataManager.Instance.highScore * 0.66f)
+            adset.gameObject.SetActive(true);
+        else
+            canvasAnimator.SetTrigger("EndScene");
     }
     void DestroyObjects()
     {

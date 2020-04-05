@@ -14,7 +14,7 @@ public class ButtonMovement : MonoBehaviour
     {   
         button = GetComponent<Button>();
         rectTransform = GetComponent<RectTransform>();
-        originalPos = rectTransform.position;
+        originalPos = rectTransform.localPosition;
         isDown = false;
     }
     public void PointerDown()
@@ -22,7 +22,7 @@ public class ButtonMovement : MonoBehaviour
         if(!button.interactable)
             return;
         isDown = true;
-        rectTransform.position = new Vector3(rectTransform.position.x, originalPos.y-delta,0);
+        rectTransform.localPosition = new Vector3(rectTransform.localPosition.x, originalPos.y-delta,0);
         SoundManager.Instance.PlaySound(SoundManager.Effects.Touch);
     }
     public void PointerUp()
@@ -33,11 +33,11 @@ public class ButtonMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!isDown && rectTransform.position.y < originalPos.y)
+        if(!isDown && rectTransform.localPosition.y < originalPos.y)
         {
-            rectTransform.position += new Vector3(0,delta * Time.unscaledDeltaTime * 5f, 0);
-            if(rectTransform.position.y > originalPos.y)
-                rectTransform.position = new Vector3(rectTransform.position.x, originalPos.y,0);
+            rectTransform.localPosition += new Vector3(0,delta * Time.unscaledDeltaTime * 5f, 0);
+            if(rectTransform.localPosition.y > originalPos.y)
+                rectTransform.localPosition = new Vector3(rectTransform.localPosition.x, originalPos.y,0);
         }
     }
 }

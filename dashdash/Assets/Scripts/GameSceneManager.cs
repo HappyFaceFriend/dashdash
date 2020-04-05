@@ -26,12 +26,26 @@ public class GameSceneManager : MonoBehaviour
     public GameObject generator;
     public Animator howToPlay;
 
+    public AdSet adset;
+
+
      void Awake()
     {
         GameManager.Instance.targetScrollSpeed = targetScrollSpeed;
         GameManager.Instance.scoreText = scoreText;
         GameManager.Instance.canvasAnimator = canvasAnimator;
     }
+
+    public void SelectAd()
+    {
+        adset.exit = false;
+        AdManager.Instance.ShowRewardAd();
+    }
+    public void ExitAd()
+    {
+        GameManager.Instance.adset.SetTrigger("End");
+    }
+
     void Start()
     {
         if(DataManager.Instance.muteSound)
@@ -62,7 +76,7 @@ public class GameSceneManager : MonoBehaviour
         {
             DataManager.Instance.SetSound(false);
             sound.sprite = soundOn;
-            SoundManager.Instance.SetSoundVolume(10f);
+            SoundManager.Instance.SetSoundVolume(Defs.soundVolume);
         }
         else
         {
@@ -77,7 +91,7 @@ public class GameSceneManager : MonoBehaviour
         {
             DataManager.Instance.SetMusic(false);
             music.sprite = musicOn;
-            SoundManager.Instance.SetMusicVolume(0f);
+            SoundManager.Instance.SetMusicVolume(Defs.musicVolume);
         }
         else
         {
